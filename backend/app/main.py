@@ -15,7 +15,8 @@ app.add_middleware(
         "https://bill-split-3wep6vrkx-jects.vercel.app",  # Current Vercel domain
         "https://bill-split-git-main-okayfine5400-gmailcoms-projects.vercel.app",  # Production Vercel domain
         "https://bill-split-xi.vercel.app",
-        "https://bill-split-3wep6vrkx-okayfine5400-gmailcoms-projects.vercel.app"
+        "https://bill-split-3wep6vrkx-okayfine5400-gmailcoms-projects.vercel.app",
+        "*",
     ],
     allow_credentials=True,
     allow_methods=["*"],
