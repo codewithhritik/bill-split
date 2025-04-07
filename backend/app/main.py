@@ -12,16 +12,29 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",  # Local development
-        "https://bill-split-3wep6vrkx-jects.vercel.app",  # Current Vercel domain
-        "https://bill-split-git-main-okayfine5400-gmailcoms-projects.vercel.app",  # Production Vercel domain
-        "https://bill-split-xi.vercel.app",
-        "https://bill-split-3wep6vrkx-okayfine5400-gmailcoms-projects.vercel.app",
-        "*",
+        "https://bill-split-xi.vercel.app",  # Production Vercel domain
+        "https://bill-split-production.up.railway.app",  # Railway domain
     ],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_credentials=False,  # Changed to False since we're not using credentials
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=86400,  # Cache preflight requests for 24 hours
 )
+
+@app.options("/api/process-image")
+async def options_process_image():
+    """
+    Handle OPTIONS preflight request
+    """
+    return {}
+
+@app.options("/api/process-pdf")
+async def options_process_pdf():
+    """
+    Handle OPTIONS preflight request
+    """
+    return {}
 
 @app.post("/api/process-image", response_model=ProcessedBill)
 async def process_bill_image(file: UploadFile = File(...)):

@@ -6,7 +6,7 @@ buildDir = "backend"
 [phases.setup]
 cmds = [
     "apt-get update",
-    "apt-get install -y tesseract-ocr",
+    "apt-get install -y tesseract-ocr tesseract-ocr-eng",
     "python -m ensurepip",
     "python -m pip install --upgrade pip"
 ]
@@ -17,15 +17,18 @@ cmds = ["cd backend && python -m pip install -r requirements.txt"]
 [deploy]
 startCommand = "cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
 healthcheckPath = "/health"
-healthcheckTimeout = 100
+healthcheckTimeout = 200
+healthcheckRetries = 5
 restartPolicyType = "on_failure"
-healthcheckRetries = 3
 
 [variables]
 PYTHON_VERSION = "3.11"
 NIXPACKS_PYTHON_VERSION = "3.11"
 PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/root/.local/bin"
 PORT = "8000"
+PYTHONUNBUFFERED = "1"
+LOG_LEVEL = "DEBUG"
 
 [service]
-rootDirectory = "backend" 
+rootDirectory = "backend"
+internal_port = 8000 
